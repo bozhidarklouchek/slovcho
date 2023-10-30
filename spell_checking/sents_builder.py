@@ -1,6 +1,6 @@
 import os, csv
 
-# Building the style dataset used for style classification task for Slovcho
+# Building the sents dataset used for spell checking task for Slovcho
 cwd = 'C:/Users/klouc/Desktop/slovcho/spell_checking'
 
 with open(f'{cwd}/sents.csv', 'w', newline='', encoding="utf-8") as target:
