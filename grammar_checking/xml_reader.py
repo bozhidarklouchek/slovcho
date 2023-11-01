@@ -10,49 +10,53 @@ try:
     tree = ET.parse(xml_file_path)
     root = tree.getroot()
 
-    sent_count = 0
+    all_sents = set()
+
+    # Iterate through the XML elements and print them
+    for element in root:
+        if(element.tag == 'root'):
+            for subelement in element:
+                if(subelement.tag == 's'):
+                    curr_sent = ""
+                    ignore_tok = False
+
+                    for token in subelement:
+                        if(token.tag == 'tok'):
+
+                            # Remove all text within brackets
+                            if(token.text == '('):
+                                ignore_tok = True
+                            if(token.text == ')'):
+                                ignore_tok = False
+                                continue
+                            if(ignore_tok):
+                                continue
+
+                            # Don't add extra space before punctuation chars
+                            if(token.attrib['pos'] == 'punct'):
+                                curr_sent += token.text
+                            # Add extra space before token
+                            else:
+                                curr_sent += " " + token.text + "___" + token.attrib['ana']
+                    if("___V" in curr_sent):
+                        if(curr_sent[:2] == '" ' or curr_sent[:2] == "' "):
+                            curr_sent = curr_sent[2:]
+                        if(curr_sent[0] == ' '):
+                            curr_sent = curr_sent[1:]
+                        if(curr_sent[len(curr_sent) - 1] == '"' or curr_sent[len(curr_sent) - 1] == "'"):
+                            curr_sent = curr_sent[:len(curr_sent) - 1]
+                        all_sents.add(curr_sent)
 
     with open(f'{cwd}/sents_tagged.csv', 'w', newline='', encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(['id', 'sent'])
 
-        # Iterate through the XML elements and print them
-        for element in root:
-            if(element.tag == 'root'):
-                for subelement in element:
-                    if(subelement.tag == 's'):
-                        curr_sent = ""
-                        ignore_tok = False
-
-                        for token in subelement:
-                            if(token.tag == 'tok'):
-
-                                # Remove all text within brackets
-                                if(token.text == '('):
-                                    ignore_tok = True
-                                if(token.text == ')'):
-                                    ignore_tok = False
-                                    continue
-                                if(ignore_tok):
-                                    continue
-
-                                # Don't add extra space before punctuation chars
-                                if(token.attrib['pos'] == 'punct'):
-                                    curr_sent += token.text
-                                # Add extra space before token
-                                else:
-                                    curr_sent += " " + token.text + "/" + token.attrib['ana']
-                        if("/V" in curr_sent):
-                            if(curr_sent[:2] == '" ' or curr_sent[:2] == "' "):
-                                curr_sent = curr_sent[2:]
-                            if(curr_sent[0] == ' '):
-                                curr_sent = curr_sent[1:]
-                            if(curr_sent[len(curr_sent) - 1] == '"' or curr_sent[len(curr_sent) - 1] == "'"):
-                                curr_sent = curr_sent[:len(curr_sent) - 1]
-                            writer.writerow([sent_count, curr_sent])
-                            sent_count += 1
-                        
-                        
+        c = 0
+        for sent in list(all_sents):
+            writer.writerow([c, sent])
+            c += 1
+                    
+                    
 
 except ET.ParseError as e:
     print(f"XML parsing error: {e}")
