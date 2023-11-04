@@ -17,7 +17,7 @@ try:
         if(element.tag == 'root'):
             for subelement in element:
                 if(subelement.tag == 's'):
-                    curr_sent = ""
+                    curr_sent = "<s>"
                     ignore_tok = False
 
                     for token in subelement:
@@ -31,14 +31,10 @@ try:
                                 continue
                             if(ignore_tok):
                                 continue
-
-                            # Don't add extra space before punctuation chars
-                            if(token.attrib['pos'] == 'punct'):
-                                curr_sent += token.text
-                            # Add extra space before token
                             else:
-                                curr_sent += " " + token.text + "___" + token.attrib['ana']
-                    if("___V" in curr_sent):
+                                curr_sent += "___" + token.text + "///" + token.attrib['ana']
+                    curr_sent += '___</s>'
+                    if("///V" in curr_sent):
                         if(curr_sent[:2] == '" ' or curr_sent[:2] == "' "):
                             curr_sent = curr_sent[2:]
                         if(curr_sent[0] == ' '):
