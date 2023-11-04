@@ -8,6 +8,8 @@ cwd = 'C:/Users/klouc/Desktop/slovcho/grammar_checking'
 REPLACE_ARTICLE_PAIR_COUNT_MAX = 19
 # Results in approx. times 64 sents
 REPLACE_PRONOUN_PAIR_COUNT_MAX = 9
+# Results in approx. times 1 sents
+REPLACE_V1P_PAIR_COUNT_MAX = 250
 
 # ERROR TYPES
 
@@ -267,8 +269,9 @@ with open(f'{cwd}/errors.csv', 'w', newline='', encoding="utf-8") as file:
             tagged_tokens = row['sent'].split('___')
             for tt in tagged_tokens:
                 if('///' in tt):
+                    word = tt.split('///')[0]
                     tag = tt.split('///')[1]
-                    if(len(tag) >= 3 and tag[0]=='V' and tag[-2:]=='1p'):
+                    if(len(tag) >= 3 and tag[0]=='V' and tag[-2:]=='1p' and word[-1:] == 'м'):
                         inv_sent_V1p_index["V_1p"].add(row['id'])
 
         # ARTICLE_MISUSE
@@ -352,25 +355,28 @@ with open(f'{cwd}/errors.csv', 'w', newline='', encoding="utf-8") as file:
 
 
         # 1P_PLURAL_VERB_FORM
-        for group in pronoun_replacement_words:
-            for i in range(len(group)):
-                curr_word_to_replace = group[i]
-                replacements = [word for word in group if word != curr_word_to_replace]
-                sent_ids_with_word = list(inv_sent_pronoun_index[curr_word_to_replace])
+        replace_curr_pair_count = 0
+        for sent_id in list(inv_sent_V1p_index["V_1p"]):
 
-                replace_curr_pair_count = 0
-                for sent_id in sent_ids_with_word:
-                    clear_sent = clean_sent(all_sents[sent_id])
-                    
-                    for replacement in replacements:
-                        errornous_sent = clear_sent.replace(f'{curr_word_to_replace} ', f'___{replacement}___ ', 1)
-                        writer.writerow([sent_pairs, sent_id, 'pronoun_misuse', clear_sent.replace(f'{curr_word_to_replace} ', f'___{curr_word_to_replace}___ ', 1), errornous_sent])
-                        sent_pairs += 1
-                        replace_curr_pair_count += 1
-                        if(replace_curr_pair_count >= REPLACE_PRONOUN_PAIR_COUNT_MAX): break
-                    if(replace_curr_pair_count >= REPLACE_PRONOUN_PAIR_COUNT_MAX): break
-            
-        
+            word_to_replace = ""
+            replacement = ""
+            tokenised_sent = all_sents[sent_id].split('___')
+            for tt in tokenised_sent:
+                if('///' in tt):
+                    tt = tt.split('///')
+                    if(len(tt[1]) >= 3 and tt[1][0]=='V' and tt[1][-2:]=='1p' and tt[0][-1:] == 'м'):
+                        word_to_replace = tt[0]
+                        replacement = f'{tt[0]}е'
+
+            clear_sent = clean_sent(all_sents[sent_id])
+            errornous_sent = clear_sent.replace(f'{word_to_replace} ', f'___{replacement}___ ', 1)
+            writer.writerow([sent_pairs, sent_id, '1p_plural_verb_form', clear_sent.replace(f'{word_to_replace} ', f'___{word_to_replace}___ ', 1), errornous_sent])
+            sent_pairs += 1
+            replace_curr_pair_count += 1
+            if(replace_curr_pair_count >= REPLACE_V1P_PAIR_COUNT_MAX): break
+
+    
+
         
                     
 
