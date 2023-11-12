@@ -2,14 +2,16 @@ import os, csv, re
 from word_checker import get_word_derivs
 
 # Building the error dataset used for grammar error handling task for Slovcho
-cwd = 'C:/Users/klouc/Desktop/slovcho/grammar_checking'
+cwd = 'C:/Users/klouc/Desktop/slovcho/grammar_checking/data/errors2_oscar'
 
-# Results in approx. times 26 sents
-REPLACE_ARTICLE_PAIR_COUNT_MAX = 19
-# Results in approx. times 64 sents
-REPLACE_PRONOUN_PAIR_COUNT_MAX = 9
+# Results in approx. times 4 sents
+REPLACE_ARTICLE_PAIR_COUNT_MAX = 0
+# Results in approx. times 74 sents
+REPLACE_PRONOUN_PAIR_COUNT_MAX = 1
 # Results in approx. times 1 sents
-REPLACE_V1P_PAIR_COUNT_MAX = 250
+REPLACE_V1P_PAIR_COUNT_MAX = 0
+# Results in approx. times 12 sents
+REPLACE_ADJ_NOUN_AGREEMENT_COUNT_MAX = 0
 
 # ERROR TYPES
 
@@ -60,20 +62,20 @@ REPLACE_V1P_PAIR_COUNT_MAX = 250
 article_replacement_tags = {
     "N": [
         ['Ncmsf', 'Ncmsh'],
-        ['Ncmsh', 'Ncmsi'],
-        ['Ncfsi', 'Ncfsd'],
-        ['Ncnsi', 'Ncnsd'],
-        ['Ncmpi', 'Ncmpd'],
-        ['Ncfpi', 'Ncfpd'],
-        ['Ncnpi', 'Ncnpd'],
-        ['Nc-li', 'Nc-ld']
+        # ['Ncmsh', 'Ncmsi'], does not always lead to error
+        # ['Ncfsi', 'Ncfsd'],
+        # ['Ncnsi', 'Ncnsd'],
+        # ['Ncmpi', 'Ncmpd'],
+        # ['Ncfpi', 'Ncfpd'],
+        # ['Ncnpi', 'Ncnpd'],
+        # ['Nc-li', 'Nc-ld']
     ],
     "A": [
         ['Amsf', 'Amsh'],
-        ['Amsh', 'Amsi'],
-        ['Afsi', 'Afsd'],
-        ['Ansi', 'Ansd'],
-        ['A-pi', 'A-pd']
+        # ['Amsh', 'Amsi'], does not always lead to error
+        # ['Afsi', 'Afsd'],
+        # ['Ansi', 'Ansd'],
+        # ['A-pi', 'A-pd']
     ],
 }
 # Make an collection of articled tags that will be indexed over
@@ -83,27 +85,13 @@ for role_group in article_replacement_tags.values():
         for tag in tag_group:
             indexed_article_tags.add(tag)
 # Init inverse artciel tag index collection
-inv_sent_article_tag_index = dict()
+inv_sent_article_tags_index = dict()
 for index_tag in list(indexed_article_tags):
-    inv_sent_article_tag_index[index_tag] = set()
-
-# 2. multiple_adjective_agreement: Using a full article on all adjectives when they're referring to
-# the same object or using it only on the first one when referring to multiple ones
-# Single Object: Големият и силен мъж вдигна тежестта -> Големият и силниЯТ мъж вдигна тежестта
-# Multiple Objects -> full Руските и полските волейболисти минаха на финал -> Руските и полски() волейболисти минаха на финал
+    inv_sent_article_tags_index[index_tag] = set()
 
 
 
-# 5. multiple_vs_numeral: Using the multiple form of a noun instead of the numeral form
-
-
-
-# NOT_PROTOTYPE
-# 6. formality: Mistakes when using formal form
-
-
-
-# 7. pronoun_misue: Use of the wrong pronoun depending on gender agreement or case
+# 2. pronoun_misue: Use of the wrong pronoun depending on gender agreement or case
 # case: 
     # лични: аз/мен, аз/мене, ти/теб, ти/тебе, той/него, тя/нея, то/него, ние/нас, вие/вас, те/тях
     # притежателни: -
@@ -196,13 +184,40 @@ for index_word in list(indexed_pronouns):
 
 
 
-# 8. 1p_plural_verb_form: Incorrect adding of 'e' to some verbs of 1st person plural form
+# 3. 1p_plural_verb_form: Incorrect adding of 'e' to some verbs of 1st person plural form
 # Хайде да пишем -> Хайде да пишеме
 # V(*)1p are the ones we want, if they with 'м' add 'е'
 # Make an collection of V1p that will be indexed over
 inv_sent_V1p_index = {
     'V_1p' : set()
 }
+
+# 4. word_disagreement
+# 4.1 word_disagreement_object_verb
+# gender: Тя беше излязла с приятелки. → Тя беше излязъл с приятелки.
+# number: Музикалната банда реши да свирят в Созопол. → Музикалната банда решиха да свирят в Созопол.
+# 4.2 word_disagreement_adjective_noun
+# gender: Силният мъж вдигна тежестта. → Силната мъж вдигна тежестта.
+# number: Силният мъж вдигна тежестта. → Силните мъж вдигна тежестта.
+word_disagreement_replacement_tags = {
+    "word_disagreement_adjective_noun": [
+        ["Amsi", "Afsi", "Ansi", "A-pi"],
+        ["Amsh", "Afsd", "Ansd", "A-pd"],
+        ["Amsf", "Afsd", "Ansd", "A-pd"]
+    ]
+}
+# Make an collection of tags that will be indexed over
+indexed_word_disagreement_tags = set()
+for role_group in word_disagreement_replacement_tags.values():
+    for tag_group in role_group:
+        for tag in tag_group:
+            indexed_word_disagreement_tags.add(tag)
+# Init inverse artciel tag index collection
+inv_sent_word_disagreement_tags_index = dict()
+for index_tag in list(indexed_word_disagreement_tags):
+    inv_sent_word_disagreement_tags_index[index_tag] = set()
+
+
 
 # NOT_PROTOTYPE
 # 9. invalid_imperative: Creating an invalid imperative.
@@ -215,7 +230,7 @@ inv_sent_V1p_index = {
 
 
 # NOT_PROTOTYPE
-# 11. adjective_noun_disagreement: Disagreement before adjective and noun genders and plural/singular
+# 11. word_disagreement: Disagreement before adjective and noun genders and plural/singular
 
 
 
@@ -227,6 +242,21 @@ inv_sent_V1p_index = {
 # NOT_PROTOTYPE
 # 12. invalid_verb_combo: Using two verbs that require different sentence roles words
 # Той предпочита и се вдъхновя от волйебола (Предпочита изисква пряко допълнение, а не съюз)
+
+# 2. multiple_adjective_agreement: Using a full article on all adjectives when they're referring to
+# the same object or using it only on the first one when referring to multiple ones
+# Single Object: Големият и силен мъж вдигна тежестта -> Големият и силниЯТ мъж вдигна тежестта
+# Multiple Objects -> full Руските и полските волейболисти минаха на финал -> Руските и полски() волейболисти минаха на финал
+
+
+
+# 5. multiple_vs_numeral: Using the multiple form of a noun instead of the numeral form
+
+
+
+# NOT_PROTOTYPE
+# 6. formality: Mistakes when using formal form
+
 
 
 
@@ -258,7 +288,7 @@ with open(f'{cwd}/errors.csv', 'w', newline='', encoding="utf-8") as file:
             # article inverse dict
             for index_tag in list(indexed_article_tags):
                 if(f'///{index_tag}' in row['sent']):
-                    inv_sent_article_tag_index[index_tag].add(row['id'])
+                    inv_sent_article_tags_index[index_tag].add(row['id'])
 
             # pronoun inverse dict
             for index_word in list(indexed_pronouns):
@@ -273,107 +303,174 @@ with open(f'{cwd}/errors.csv', 'w', newline='', encoding="utf-8") as file:
                     tag = tt.split('///')[1]
                     if(len(tag) >= 3 and tag[0]=='V' and tag[-2:]=='1p' and word[-1:] == 'м'):
                         inv_sent_V1p_index["V_1p"].add(row['id'])
+            
+            # noun_adj inverse dict
+            for index_tag in list(indexed_word_disagreement_tags):
+                if(f'///{index_tag}' in row['sent']):
+                    inv_sent_word_disagreement_tags_index[index_tag].add(row['id'])
 
         # ARTICLE_MISUSE
-        for word_role in article_replacement_tags.keys():
-            tag_groups = article_replacement_tags[word_role]
-            for group in tag_groups:
-                for i in range(len(group)):
-                    curr_tag_to_replace = group[i]
-                    replacement_tags = [tag for tag in group if tag != curr_tag_to_replace]
-                    sent_ids_with_tag = list(inv_sent_article_tag_index[curr_tag_to_replace])
+        if(REPLACE_ARTICLE_PAIR_COUNT_MAX):
+            for word_role in article_replacement_tags.keys():
+                tag_groups = article_replacement_tags[word_role]
+                for group in tag_groups:
+                    for i in range(len(group)):
+                        curr_tag_to_replace = group[i]
+                        replacement_tags = [tag for tag in group if tag != curr_tag_to_replace]
+                        sent_ids_with_tag = list(inv_sent_article_tags_index[curr_tag_to_replace])
 
-                    replace_curr_pair_count = 0
-                    for sent_id in sent_ids_with_tag:
-                        correct_sent = all_sents[sent_id]
-                        if(replace_curr_pair_count >= REPLACE_ARTICLE_PAIR_COUNT_MAX): break
-                        
-                        for replacement_tag in replacement_tags:
-                            tokenised_sent = [tagged_token.split('///') for tagged_token in correct_sent.split('___')]
-                            tokenised_sent = tokenised_sent[1:-1]
-
-                            curr_word_to_replace = ""
-                            for tagged_token in tokenised_sent:
-                                if(tagged_token[1] == curr_tag_to_replace):
-                                    curr_word_to_replace = tagged_token[0]
-                                    break
-                            
-                            # Deal with най- and по- for A
-                            comparative_prefix = ""
-                            if(len(curr_word_to_replace) > 4 and curr_word_to_replace[:4] == "най-"):
-                                comparative_prefix = "най-"
-                                curr_word_to_replace = re.sub(r'\bнай-', "", curr_word_to_replace)
-                            elif(len(curr_word_to_replace) > 4 and curr_word_to_replace[:4] == "Най-"):
-                                comparative_prefix = "Най-"
-                                curr_word_to_replace = re.sub(r'\bНай-', "", curr_word_to_replace)
-                            elif(len(curr_word_to_replace) > 3 and curr_word_to_replace[:4] == "по-"):
-                                comparative_prefix = "по-"
-                                curr_word_to_replace = re.sub(r'\bпо-', "", curr_word_to_replace)  
-                            elif(len(curr_word_to_replace) > 3 and curr_word_to_replace[:4] == "По-"):
-                                comparative_prefix = "По-"
-                                curr_word_to_replace = re.sub(r'\bПо-', "", curr_word_to_replace)                                
-
-                            # If any error, skip
-                            derivs = get_word_derivs(curr_word_to_replace, curr_tag_to_replace)
-                            if(not derivs or derivs[replacement_tag] == '-'):
-                                continue
-
-                            # If replaced word is capitalised, capitaise replacement word
-                            if(f'{curr_word_to_replace[0].lower()}{curr_word_to_replace[1:]}' != curr_word_to_replace):
-                                derivs[replacement_tag] = f'{derivs[replacement_tag][0].capitalize()}{derivs[replacement_tag][1:]}'
-
-                            if(comparative_prefix):
-                                curr_word_to_replace = comparative_prefix + curr_word_to_replace
-                                derivs[replacement_tag] = comparative_prefix + derivs[replacement_tag]
-                            clear_sent = clean_sent(correct_sent)
-                            errornous_sent = clear_sent.replace(f'{curr_word_to_replace} ', f'___{derivs[replacement_tag]}___ ', 1)
-                            writer.writerow([sent_pairs, sent_id, 'article_misuse', clear_sent.replace(f'{curr_word_to_replace} ', f'___{curr_word_to_replace}___ ', 1), errornous_sent])
-                            sent_pairs += 1
-                            replace_curr_pair_count += 1
+                        replace_curr_pair_count = 0
+                        for sent_id in sent_ids_with_tag:
+                            correct_sent = all_sents[sent_id]
                             if(replace_curr_pair_count >= REPLACE_ARTICLE_PAIR_COUNT_MAX): break
-                        if(replace_curr_pair_count >= REPLACE_ARTICLE_PAIR_COUNT_MAX): break
+                            
+                            for replacement_tag in replacement_tags:
+                                tokenised_sent = [tagged_token.split('///') for tagged_token in correct_sent.split('___')]
+                                tokenised_sent = tokenised_sent[1:-1]
+
+                                curr_word_to_replace = ""
+                                for tagged_token in tokenised_sent:
+                                    if(tagged_token[1] == curr_tag_to_replace):
+                                        curr_word_to_replace = tagged_token[0]
+                                        break
+                                
+                                # Deal with най- and по- for A
+                                comparative_prefix = ""
+                                if(len(curr_word_to_replace) > 4 and curr_word_to_replace[:4] == "най-"):
+                                    comparative_prefix = "най-"
+                                    curr_word_to_replace = re.sub(r'\bнай-', "", curr_word_to_replace)
+                                elif(len(curr_word_to_replace) > 4 and curr_word_to_replace[:4] == "Най-"):
+                                    comparative_prefix = "Най-"
+                                    curr_word_to_replace = re.sub(r'\bНай-', "", curr_word_to_replace)
+                                elif(len(curr_word_to_replace) > 3 and curr_word_to_replace[:4] == "по-"):
+                                    comparative_prefix = "по-"
+                                    curr_word_to_replace = re.sub(r'\bпо-', "", curr_word_to_replace)  
+                                elif(len(curr_word_to_replace) > 3 and curr_word_to_replace[:4] == "По-"):
+                                    comparative_prefix = "По-"
+                                    curr_word_to_replace = re.sub(r'\bПо-', "", curr_word_to_replace)                                
+
+                                # If any error, skip
+                                derivs = get_word_derivs(curr_word_to_replace, curr_tag_to_replace)
+                                if(not derivs or derivs[replacement_tag] == '-'):
+                                    continue
+
+                                # If replaced word is capitalised, capitaise replacement word
+                                if(f'{curr_word_to_replace[0].lower()}{curr_word_to_replace[1:]}' != curr_word_to_replace):
+                                    derivs[replacement_tag] = f'{derivs[replacement_tag][0].capitalize()}{derivs[replacement_tag][1:]}'
+
+                                if(comparative_prefix):
+                                    curr_word_to_replace = comparative_prefix + curr_word_to_replace
+                                    derivs[replacement_tag] = comparative_prefix + derivs[replacement_tag]
+                                clear_sent = clean_sent(correct_sent)
+                                errornous_sent = clear_sent.replace(f'{curr_word_to_replace} ', f'___{derivs[replacement_tag]}___ ', 1)
+                                writer.writerow([sent_pairs, sent_id, 'article_misuse', clear_sent.replace(f'{curr_word_to_replace} ', f'___{curr_word_to_replace}___ ', 1), errornous_sent])
+                                sent_pairs += 1
+                                replace_curr_pair_count += 1
+                                if(replace_curr_pair_count >= REPLACE_ARTICLE_PAIR_COUNT_MAX): break
+                            if(replace_curr_pair_count >= REPLACE_ARTICLE_PAIR_COUNT_MAX): break
         
 
         # PRONOUN_MISUSE
-        for group in pronoun_replacement_words:
-            for i in range(len(group)):
-                curr_word_to_replace = group[i]
-                replacements = [word for word in group if word != curr_word_to_replace]
-                sent_ids_with_word = list(inv_sent_pronoun_index[curr_word_to_replace])
+        if(REPLACE_PRONOUN_PAIR_COUNT_MAX):
+            for group in pronoun_replacement_words:
+                for i in range(len(group)):
+                    curr_word_to_replace = group[i]
+                    replacements = [word for word in group if word != curr_word_to_replace]
+                    sent_ids_with_word = list(inv_sent_pronoun_index[curr_word_to_replace])
 
-                replace_curr_pair_count = 0
-                for sent_id in sent_ids_with_word:
-                    clear_sent = clean_sent(all_sents[sent_id])
-                    
-                    for replacement in replacements:
-                        errornous_sent = clear_sent.replace(f'{curr_word_to_replace} ', f'___{replacement}___ ', 1)
-                        writer.writerow([sent_pairs, sent_id, 'pronoun_misuse', clear_sent.replace(f'{curr_word_to_replace} ', f'___{curr_word_to_replace}___ ', 1), errornous_sent])
-                        sent_pairs += 1
-                        replace_curr_pair_count += 1
+                    replace_curr_pair_count = 0
+                    for sent_id in sent_ids_with_word:
+                        clear_sent = clean_sent(all_sents[sent_id])
+                        
+                        for replacement in replacements:
+                            errornous_sent = clear_sent.replace(f'{curr_word_to_replace} ', f'___{replacement}___ ', 1)
+                            writer.writerow([sent_pairs, sent_id, 'pronoun_misuse', clear_sent.replace(f'{curr_word_to_replace} ', f'___{curr_word_to_replace}___ ', 1), errornous_sent])
+                            sent_pairs += 1
+                            replace_curr_pair_count += 1
+                            if(replace_curr_pair_count >= REPLACE_PRONOUN_PAIR_COUNT_MAX): break
                         if(replace_curr_pair_count >= REPLACE_PRONOUN_PAIR_COUNT_MAX): break
-                    if(replace_curr_pair_count >= REPLACE_PRONOUN_PAIR_COUNT_MAX): break
 
 
         # 1P_PLURAL_VERB_FORM
-        replace_curr_pair_count = 0
-        for sent_id in list(inv_sent_V1p_index["V_1p"]):
+        if(REPLACE_V1P_PAIR_COUNT_MAX):
+            replace_curr_pair_count = 0
+            for sent_id in list(inv_sent_V1p_index["V_1p"]):
+                word_to_replace = ""
+                replacement = ""
+                tokenised_sent = all_sents[sent_id].split('___')
+                for tt in tokenised_sent:
+                    if('///' in tt):
+                        tt = tt.split('///')
+                        if(len(tt[1]) >= 3 and tt[1][0]=='V' and tt[1][-2:]=='1p' and tt[0][-1:] == 'м'):
+                            word_to_replace = tt[0]
+                            replacement = f'{tt[0]}е'
+                clear_sent = clean_sent(all_sents[sent_id])
+                errornous_sent = clear_sent.replace(f'{word_to_replace} ', f'___{replacement}___ ', 1)
+                writer.writerow([sent_pairs, sent_id, '1p_plural_verb_form', clear_sent.replace(f'{word_to_replace} ', f'___{word_to_replace}___ ', 1), errornous_sent])
+                sent_pairs += 1
+                replace_curr_pair_count += 1
+                if(replace_curr_pair_count >= REPLACE_V1P_PAIR_COUNT_MAX): break
 
-            word_to_replace = ""
-            replacement = ""
-            tokenised_sent = all_sents[sent_id].split('___')
-            for tt in tokenised_sent:
-                if('///' in tt):
-                    tt = tt.split('///')
-                    if(len(tt[1]) >= 3 and tt[1][0]=='V' and tt[1][-2:]=='1p' and tt[0][-1:] == 'м'):
-                        word_to_replace = tt[0]
-                        replacement = f'{tt[0]}е'
+        # WORD_DISAGREEMENT
+        if(REPLACE_ADJ_NOUN_AGREEMENT_COUNT_MAX):
+            for disagreement_type in word_disagreement_replacement_tags.keys():
+                tag_groups = word_disagreement_replacement_tags[disagreement_type]
+                for group in tag_groups:
+                    for i in range(len(group)):
+                        curr_tag_to_replace = group[i]
+                        replacement_tags = [tag for tag in group if tag != curr_tag_to_replace]
+                        sent_ids_with_tag = list(inv_sent_word_disagreement_tags_index[curr_tag_to_replace])
 
-            clear_sent = clean_sent(all_sents[sent_id])
-            errornous_sent = clear_sent.replace(f'{word_to_replace} ', f'___{replacement}___ ', 1)
-            writer.writerow([sent_pairs, sent_id, '1p_plural_verb_form', clear_sent.replace(f'{word_to_replace} ', f'___{word_to_replace}___ ', 1), errornous_sent])
-            sent_pairs += 1
-            replace_curr_pair_count += 1
-            if(replace_curr_pair_count >= REPLACE_V1P_PAIR_COUNT_MAX): break
+                        replace_curr_pair_count = 0
+                        for sent_id in sent_ids_with_tag:
+                            correct_sent = all_sents[sent_id]
+                            if(replace_curr_pair_count >= REPLACE_ADJ_NOUN_AGREEMENT_COUNT_MAX): break
+                            
+                            for replacement_tag in replacement_tags:
+                                tokenised_sent = [tagged_token.split('///') for tagged_token in correct_sent.split('___')]
+                                tokenised_sent = tokenised_sent[1:-1]
+
+                                curr_word_to_replace = ""
+                                for tagged_token in tokenised_sent:
+                                    if(tagged_token[1] == curr_tag_to_replace):
+                                        curr_word_to_replace = tagged_token[0]
+                                        break
+                                
+                                # Deal with най- and по- for A
+                                comparative_prefix = ""
+                                if(len(curr_word_to_replace) > 4 and curr_word_to_replace[:4] == "най-"):
+                                    comparative_prefix = "най-"
+                                    curr_word_to_replace = re.sub(r'\bнай-', "", curr_word_to_replace)
+                                elif(len(curr_word_to_replace) > 4 and curr_word_to_replace[:4] == "Най-"):
+                                    comparative_prefix = "Най-"
+                                    curr_word_to_replace = re.sub(r'\bНай-', "", curr_word_to_replace)
+                                elif(len(curr_word_to_replace) > 3 and curr_word_to_replace[:4] == "по-"):
+                                    comparative_prefix = "по-"
+                                    curr_word_to_replace = re.sub(r'\bпо-', "", curr_word_to_replace)  
+                                elif(len(curr_word_to_replace) > 3 and curr_word_to_replace[:4] == "По-"):
+                                    comparative_prefix = "По-"
+                                    curr_word_to_replace = re.sub(r'\bПо-', "", curr_word_to_replace)                                
+
+                                # If any error, skip
+                                derivs = get_word_derivs(curr_word_to_replace, curr_tag_to_replace)
+                                if(not derivs or derivs[replacement_tag] == '-'):
+                                    continue
+
+                                # If replaced word is capitalised, capitaise replacement word
+                                if(f'{curr_word_to_replace[0].lower()}{curr_word_to_replace[1:]}' != curr_word_to_replace):
+                                    derivs[replacement_tag] = f'{derivs[replacement_tag][0].capitalize()}{derivs[replacement_tag][1:]}'
+
+                                if(comparative_prefix):
+                                    curr_word_to_replace = comparative_prefix + curr_word_to_replace
+                                    derivs[replacement_tag] = comparative_prefix + derivs[replacement_tag]
+                                clear_sent = clean_sent(correct_sent)
+                                errornous_sent = clear_sent.replace(f'{curr_word_to_replace} ', f'___{derivs[replacement_tag]}___ ', 1)
+                                writer.writerow([sent_pairs, sent_id, 'word_disagreement_adjective_noun', clear_sent.replace(f'{curr_word_to_replace} ', f'___{curr_word_to_replace}___ ', 1), errornous_sent])
+                                sent_pairs += 1
+                                replace_curr_pair_count += 1
+                                if(replace_curr_pair_count >= REPLACE_ADJ_NOUN_AGREEMENT_COUNT_MAX): break
+                            if(replace_curr_pair_count >= REPLACE_ADJ_NOUN_AGREEMENT_COUNT_MAX): break
+            
 
     
 
