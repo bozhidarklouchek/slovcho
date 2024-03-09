@@ -1,0 +1,127 @@
+{
+    "embed_dim": 200,
+    "batch_size": 32,
+    "lr_rate": 0.01,
+    "model_deets": [
+        {
+            "time_to_train_epoch": 41.42653298377991,
+            "epoch_num": 1,
+            "train_loss": 0.8178497408117567,
+            "val_loss": 0.5940858787960477
+        },
+        {
+            "time_to_train_epoch": 41.67793655395508,
+            "epoch_num": 2,
+            "train_loss": 0.5420316202299935,
+            "val_loss": 0.5625783569282956
+        },
+        {
+            "time_to_train_epoch": 41.63926959037781,
+            "epoch_num": 3,
+            "train_loss": 0.463283486025674,
+            "val_loss": 0.5361131098535326
+        },
+        {
+            "time_to_train_epoch": 41.52661848068237,
+            "epoch_num": 4,
+            "train_loss": 0.3549540817737579,
+            "val_loss": 0.5221248832013872
+        },
+        {
+            "time_to_train_epoch": 41.78589916229248,
+            "epoch_num": 5,
+            "train_loss": 0.24530810841492245,
+            "val_loss": 0.5333222730292214
+        },
+        {
+            "time_to_train_epoch": 41.56847357749939,
+            "epoch_num": 6,
+            "train_loss": 0.16037869794028145,
+            "val_loss": 0.5371262083450953
+        },
+        {
+            "time_to_train_epoch": 41.65756821632385,
+            "epoch_num": 7,
+            "train_loss": 0.11394705229571887,
+            "val_loss": 0.5471240348286099
+        },
+        {
+            "time_to_train_epoch": 41.7012152671814,
+            "epoch_num": 8,
+            "train_loss": 0.0863682176385607,
+            "val_loss": 0.5658012595441606
+        },
+        {
+            "time_to_train_epoch": 41.747944593429565,
+            "epoch_num": 9,
+            "train_loss": 0.06628009267151355,
+            "val_loss": 0.5692051334513558
+        },
+        {
+            "time_to_train_epoch": 41.74039912223816,
+            "epoch_num": 10,
+            "train_loss": 0.05119181674505983,
+            "val_loss": 0.5813194198740853
+        },
+        {
+            "time_to_train_epoch": 41.689505100250244,
+            "epoch_num": 11,
+            "train_loss": 0.03875226713716984,
+            "val_loss": 0.5869804786311256
+        },
+        {
+            "time_to_train_epoch": 41.710153579711914,
+            "epoch_num": 12,
+            "train_loss": 0.029955305957368443,
+            "val_loss": 0.5954332881503634
+        },
+        {
+            "time_to_train_epoch": 41.62000823020935,
+            "epoch_num": 13,
+            "train_loss": 0.024238933569618634,
+            "val_loss": 0.6101749920182757
+        },
+        {
+            "time_to_train_epoch": 41.66714930534363,
+            "epoch_num": 14,
+            "train_loss": 0.0201406900371824,
+            "val_loss": 0.6200783335500293
+        },
+        {
+            "time_to_train_epoch": 41.78355383872986,
+            "epoch_num": 15,
+            "train_loss": 0.017082156274201614,
+            "val_loss": 0.6339037964741389
+        },
+        {
+            "time_to_train_epoch": 41.484513998031616,
+            "epoch_num": 16,
+            "train_loss": 0.014166119801146643,
+            "val_loss": 0.6288632684283786
+        },
+        {
+            "time_to_train_epoch": 41.639798164367676,
+            "epoch_num": 17,
+            "train_loss": 0.012502644237663065,
+            "val_loss": 0.6395912004841698
+        },
+        {
+            "time_to_train_epoch": 41.91075420379639,
+            "epoch_num": 18,
+            "train_loss": 0.011071208545139858,
+            "val_loss": 0.6476957847674688
+        },
+        {
+            "time_to_train_epoch": 41.525634765625,
+            "epoch_num": 19,
+            "train_loss": 0.010287654386567218,
+            "val_loss": 0.6719196372561984
+        },
+        {
+            "time_to_train_epoch": 41.630985498428345,
+            "epoch_num": 20,
+            "train_loss": 0.009864819409059627,
+            "val_loss": 0.6737957994143168
+        }
+    ]
+}

@@ -1,0 +1,127 @@
+{
+    "embed_dim": 200,
+    "batch_size": 4,
+    "lr_rate": 0.001,
+    "model_deets": [
+        {
+            "time_to_train_epoch": 331.2661483287811,
+            "epoch_num": 1,
+            "train_loss": 0.6743737726385216,
+            "val_loss": 0.5613533328686442
+        },
+        {
+            "time_to_train_epoch": 330.9658145904541,
+            "epoch_num": 2,
+            "train_loss": 0.5106442735510336,
+            "val_loss": 0.5395977105413164
+        },
+        {
+            "time_to_train_epoch": 332.1022653579712,
+            "epoch_num": 3,
+            "train_loss": 0.4510200652126357,
+            "val_loss": 0.5206535665052278
+        },
+        {
+            "time_to_train_epoch": 331.9143078327179,
+            "epoch_num": 4,
+            "train_loss": 0.3837891033709907,
+            "val_loss": 0.4939471820635455
+        },
+        {
+            "time_to_train_epoch": 332.95739579200745,
+            "epoch_num": 5,
+            "train_loss": 0.31163076359591035,
+            "val_loss": 0.47004220964653154
+        },
+        {
+            "time_to_train_epoch": 332.64847326278687,
+            "epoch_num": 6,
+            "train_loss": 0.24271851444362308,
+            "val_loss": 0.45233026604567256
+        },
+        {
+            "time_to_train_epoch": 331.75041794776917,
+            "epoch_num": 7,
+            "train_loss": 0.18423304166778814,
+            "val_loss": 0.43451412990689275
+        },
+        {
+            "time_to_train_epoch": 331.067085981369,
+            "epoch_num": 8,
+            "train_loss": 0.13541613966092575,
+            "val_loss": 0.422376322267311
+        },
+        {
+            "time_to_train_epoch": 331.2452349662781,
+            "epoch_num": 9,
+            "train_loss": 0.09785772141457784,
+            "val_loss": 0.4039681984909943
+        },
+        {
+            "time_to_train_epoch": 330.3600535392761,
+            "epoch_num": 10,
+            "train_loss": 0.06988087256619935,
+            "val_loss": 0.3995811632568283
+        },
+        {
+            "time_to_train_epoch": 329.63946628570557,
+            "epoch_num": 11,
+            "train_loss": 0.04876571961614913,
+            "val_loss": 0.3930211451968976
+        },
+        {
+            "time_to_train_epoch": 330.6988739967346,
+            "epoch_num": 12,
+            "train_loss": 0.03373068572933243,
+            "val_loss": 0.39155293801533325
+        },
+        {
+            "time_to_train_epoch": 333.2080981731415,
+            "epoch_num": 13,
+            "train_loss": 0.02398878172385044,
+            "val_loss": 0.3825803131197712
+        },
+        {
+            "time_to_train_epoch": 330.574027299881,
+            "epoch_num": 14,
+            "train_loss": 0.017902967074497355,
+            "val_loss": 0.38827602033104214
+        },
+        {
+            "time_to_train_epoch": 333.9542758464813,
+            "epoch_num": 15,
+            "train_loss": 0.015039708917598716,
+            "val_loss": 0.3886288517021707
+        },
+        {
+            "time_to_train_epoch": 330.1886444091797,
+            "epoch_num": 16,
+            "train_loss": 0.011055432242867303,
+            "val_loss": 0.39677432307175226
+        },
+        {
+            "time_to_train_epoch": 331.5697374343872,
+            "epoch_num": 17,
+            "train_loss": 0.00871894670199777,
+            "val_loss": 0.38248602659774145
+        },
+        {
+            "time_to_train_epoch": 331.7465271949768,
+            "epoch_num": 18,
+            "train_loss": 0.007968243026834571,
+            "val_loss": 0.3848106330626511
+        },
+        {
+            "time_to_train_epoch": 331.82396817207336,
+            "epoch_num": 19,
+            "train_loss": 0.007349666379720455,
+            "val_loss": 0.3950269281598074
+        },
+        {
+            "time_to_train_epoch": 332.4846680164337,
+            "epoch_num": 20,
+            "train_loss": 0.005299783360151065,
+            "val_loss": 0.38910807695771965
+        }
+    ]
+}

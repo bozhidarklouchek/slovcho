@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled",
+                "ssl": {}
+            },
+            "previewLimit": 50,
+            "server": "localhost\\sqldeveloper",
+            "port": 33060,
+            "driver": "MySQL",
+            "name": "Chitanka",
+            "database": "chitanka_words",
+            "username": "admin",
+            "password": ""
+        }
+    ]
+}

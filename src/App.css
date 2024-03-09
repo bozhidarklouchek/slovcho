@@ -1,0 +1,338 @@
+.app {
+  text-align: center;
+}
+
+.languageBox{
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  padding: 10px;
+  
+  display: flex;
+  flex-direction: row;
+}
+.languageFlag{
+  height: 30px;
+  width: 45px;
+
+  margin-left: 10px;
+  
+  border: 1px solid #959595;
+  border-radius: 5px;
+}
+.languageFlag:hover {
+  cursor: pointer;
+}
+
+.content{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  height: 500px;
+}
+.textColumn{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 100%;
+  width: 700px;
+}
+.titleColumn{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  text-align: left;
+  height: 100%;
+  width: 370px;
+
+  margin-left: 10px;
+  
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.titleBox {
+  padding-right: 20px; 
+  padding-left: 15px; 
+  padding-bottom: 20px; 
+  padding-top: 15px; 
+  align-items: start;
+  justify-content: start;
+  
+}
+
+.adm{
+  font-family:arial black;
+  background-image: 
+  linear-gradient(to right,red,rgb(146, 0, 0), red);
+  background-clip: text;
+  -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  
+  animation: rainbow-animation 280s linear infinite;
+}
+.acd{
+  font-family:arial black;
+  background-image: 
+    linear-gradient(to right,orange,rgb(255, 234, 0), orange); 
+  background-clip: text;
+  -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  
+  animation: rainbow-animation 280s linear infinite;
+}
+.cas{
+  font-family:arial black;
+  background-image: 
+    linear-gradient(to right,rgb(61, 192, 0),rgb(89, 233, 0), rgb(61, 192, 0)); 
+  background-clip: text;
+  -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  
+  animation: rainbow-animation 280s linear infinite;
+}
+.crt{
+  font-family:arial black;
+  background-image: 
+    linear-gradient(to right,rgb(0, 76, 255),rgb(0, 6, 184), rgb(0, 76, 255)); 
+  background-clip: text;
+  -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  
+  animation: rainbow-animation 280s linear infinite;
+}
+.news{
+  font-family:arial black;
+  background-image: 
+    linear-gradient(to right,rgb(179, 0, 255),rgb(230, 0, 255), rgb(179, 0, 255)); 
+  background-clip: text;
+  -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  
+  animation: rainbow-animation 280s linear infinite;
+}
+
+@keyframes rainbow-animation {
+  to {
+      background-position: 4500vh;
+  }
+}
+
+.title{
+  font-size: 30px;
+  font-weight: bold;
+  color: #282c34;
+  padding: 0;
+  margin: 0;
+}
+
+
+.iconBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+  height: 120px;
+}
+
+.infoBox{
+  flex: 1;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.buttonBox{}
+
+.checkButton{
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 8px;
+  background-color: rgb(72, 74, 157);
+  cursor: pointer;
+
+  transition: background-color 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s ease-in-out;
+  -ms-transition: background-color 0.2s ease-in-out;
+  -o-transition: background-color 0.2s ease-in-out;
+
+}
+.checkButton:hover{
+  background-color: rgb(53, 54, 115);
+}
+
+.buttonText{
+  margin: 0;
+  margin-left: 20px;
+  padding-right: 20px;
+  font-size: 23px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+}
+
+.textBox {
+  height: 100%;
+  width: 700px;
+
+  /* margin: 20px auto;  */
+  /* padding: 10px; */
+
+  overflow: auto;
+
+  text-align: left;
+
+  border-color: #959595;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.spanBox {
+  padding: 15px;
+  font-size: 20px;
+  font-family:  sans-serif; 
+  overflow: auto;
+  background-color: red;
+}
+
+.littleSpanCorrect{
+  white-space: nowrap;
+  color: black;
+  position: relative;
+}
+
+.littleSpanIsSpelledWrong{
+  white-space: nowrap;
+  position: relative;
+  z-index:12;
+  color: rgb(226, 0, 0);
+  transition-delay: 1.5s;
+  transition-property: color;
+  animation: underline 1s ease-in-out forwards;
+  animation-delay: 1.5s;
+}
+/* Add a bottom border using ::after pseudo-element */
+.littleSpanIsSpelledWrong::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px; /* Adjust the border height as needed */
+  background-color: rgb(255, 81, 81); /* Adjust the border color as needed */
+  animation: slideFromLeft 2s forwards; /* Adjust the animation duration as needed */
+  animation-delay: 1.5s;
+}
+
+.littleSpanIsGrammaticallyWrong{
+  white-space: nowrap;
+  position: relative;
+  z-index:12;
+  color: rgb(204, 0, 255);
+  transition: color 1s ease;
+  animation: underline 1s ease-in-out forwards;
+  animation-delay: 1.5s;
+}
+/* Add a bottom border using ::after pseudo-element */
+.littleSpanIsGrammaticallyWrong::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px; /* Adjust the border height as needed */
+  background-color: rgb(228, 94, 255); /* Adjust the border color as needed */
+  animation: slideFromLeft 2s forwards; /* Adjust the animation duration as needed */
+  animation-delay: 1.5s;
+}
+
+/* Keyframes for the slideFromLeft animation */
+@keyframes slideFromLeft {
+  to {
+    width: 100%;
+  }
+}
+
+
+
+.littleSpanIsSpelledWrong:hover{ 
+  white-space: nowrap;
+  color: darkred;
+  cursor: pointer;
+}
+
+.littleSpanIsGrammaticallyWrong:hover{ 
+  white-space: nowrap;
+  color: rgb(142, 0, 161);
+  cursor: pointer;
+}
+
+.input {
+  position: absolute;
+  width: 705px;
+  height: 500px;
+
+  padding: 15px;
+
+  text-align: left;
+  font-size: 20px;
+  font-family:  sans-serif;
+
+  resize: none;
+  overflow: auto;
+
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  box-sizing: border-box;
+  /* position:absolute;
+  width: 50%;
+  margin: 0 auto;
+  padding: 1em;
+  background: #fff;
+  color: #000;
+  height:100px;
+  margin:2px;
+  border:1px solid black;
+  color:#fff;
+  overflow:auto;
+  text-align: left; */
+}
+
+#real{
+  z-index:11;
+  background:transparent;
+  color:transparent;
+  caret-color: black;
+  overflow: hidden;
+}
+
+.candidateWindow{
+  position: fixed;
+  background-color: white;
+  margin-left: 5;
+  margin-right: 5;
+  margin-top: 7;
+  margin-bottom: 7;
+  z-index: 13;
+  min-width: 80px;
+  border: 1px solid #959595;
+  /* border-radius: 7px; */
+}
+
+.candidate{
+  white-space: nowrap;
+  margin: 5px;
+
+  /* border-bottom: 1px solid #959595; */
+}
+
+.candidate:hover{
+  cursor: pointer;
+  color: blue;
+  /* background-color: #959595; */
+}

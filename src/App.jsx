@@ -164,10 +164,10 @@ function App() {
     let ignore = false
 
     const fetchData = async () => {
-      setGrammarsThinking(grammarsThinking + 1)
+      setGrammarsThinking(n => n + 1)
       let grammarCheckedText = await grammarCheck(processedSents.map((sent) => sent.map((word_pos) => word_pos.text)))
       
-      setGrammarsThinking(grammarsThinking - 1)
+      setGrammarsThinking(n => n - 1)
       if(!ignore) setGrammarCorrections(grammarCheckedText.split(' '))
     }
 
@@ -312,7 +312,12 @@ function App() {
               contentEditable="plaintext-only"
               autoCorrect="false"
               onInput={(e) => {
-                setRawText(e.currentTarget.textContent)}}
+                if(e.currentTarget.textContent.length > 10){
+                  e.preventDefault()
+                }
+                  
+                // e.currentTarget.textContent = e.currentTarget.textContent.slice(0, 10)
+                setRawText(e.currentTarget.textContent.slice(0, 10))}}
             />
             
             <div
@@ -322,7 +327,7 @@ function App() {
               contentEditable="plaintext-only"
             > 
                 {
-                  rawText.split('\n').join(' PARAGPRAPH_SYMBOL ').split(' ').map((rawWord, i) => {
+                  rawText.slice(0, 10).split('\n').join(' PARAGPRAPH_SYMBOL ').split(' ').map((rawWord, i) => {
 
 
                   let charIndex = 0
@@ -351,8 +356,12 @@ function App() {
                     let corrections = []
                     let isSpelledWrong = false
                     let isGrammaticallyWrong = false
-                    let grammarCheckedWord = grammarCorrections[i]
-                    if(rawWord != grammarCheckedWord){
+                    let grammarCheckedWord = 
+                    grammarCorrections[i] != undefined
+                    ? grammarCorrections[i].replace(/[.,\/#!$%\^&\*;:{}=_`~()\[\]"'„“<>?\\|]/g, '')
+                    : ''
+
+                    if(cleanedWord != grammarCheckedWord){
                       isGrammaticallyWrong = true
                     }
                     

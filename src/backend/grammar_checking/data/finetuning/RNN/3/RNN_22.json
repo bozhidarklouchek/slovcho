@@ -1,0 +1,127 @@
+{
+    "embed_dim": 200,
+    "batch_size": 16,
+    "lr_rate": 0.001,
+    "model_deets": [
+        {
+            "time_to_train_epoch": 102.65243101119995,
+            "epoch_num": 1,
+            "train_loss": 0.9509737675996135,
+            "val_loss": 0.5783801632268089
+        },
+        {
+            "time_to_train_epoch": 102.76400637626648,
+            "epoch_num": 2,
+            "train_loss": 0.5505416142425948,
+            "val_loss": 0.5686247212546213
+        },
+        {
+            "time_to_train_epoch": 102.68365001678467,
+            "epoch_num": 3,
+            "train_loss": 0.5249100857072597,
+            "val_loss": 0.557463675737381
+        },
+        {
+            "time_to_train_epoch": 102.77937841415405,
+            "epoch_num": 4,
+            "train_loss": 0.49785021397707274,
+            "val_loss": 0.5495085026536669
+        },
+        {
+            "time_to_train_epoch": 102.69588613510132,
+            "epoch_num": 5,
+            "train_loss": 0.46826329784427617,
+            "val_loss": 0.5387674016611916
+        },
+        {
+            "time_to_train_epoch": 102.72695088386536,
+            "epoch_num": 6,
+            "train_loss": 0.4368270292556543,
+            "val_loss": 0.5289574112210955
+        },
+        {
+            "time_to_train_epoch": 102.6667046546936,
+            "epoch_num": 7,
+            "train_loss": 0.4047563869318516,
+            "val_loss": 0.5227218227727073
+        },
+        {
+            "time_to_train_epoch": 102.81110692024231,
+            "epoch_num": 8,
+            "train_loss": 0.37161768576224075,
+            "val_loss": 0.5113770135811397
+        },
+        {
+            "time_to_train_epoch": 102.99394488334656,
+            "epoch_num": 9,
+            "train_loss": 0.33780944122256135,
+            "val_loss": 0.5041786628110069
+        },
+        {
+            "time_to_train_epoch": 102.77225947380066,
+            "epoch_num": 10,
+            "train_loss": 0.30383659556186454,
+            "val_loss": 0.4960834290300097
+        },
+        {
+            "time_to_train_epoch": 102.60578751564026,
+            "epoch_num": 11,
+            "train_loss": 0.271571202351035,
+            "val_loss": 0.4849793970584869
+        },
+        {
+            "time_to_train_epoch": 102.77917194366455,
+            "epoch_num": 12,
+            "train_loss": 0.24060427670856174,
+            "val_loss": 0.4770648658275604
+        },
+        {
+            "time_to_train_epoch": 103.01681971549988,
+            "epoch_num": 13,
+            "train_loss": 0.21189145432959358,
+            "val_loss": 0.4716911894934518
+        },
+        {
+            "time_to_train_epoch": 102.91565585136414,
+            "epoch_num": 14,
+            "train_loss": 0.18505533532701807,
+            "val_loss": 0.4620665967464447
+        },
+        {
+            "time_to_train_epoch": 103.13172745704651,
+            "epoch_num": 15,
+            "train_loss": 0.1610277503085651,
+            "val_loss": 0.45617343953677586
+        },
+        {
+            "time_to_train_epoch": 102.87856531143188,
+            "epoch_num": 16,
+            "train_loss": 0.14044983668936242,
+            "val_loss": 0.4479013127940042
+        },
+        {
+            "time_to_train_epoch": 102.81922388076782,
+            "epoch_num": 17,
+            "train_loss": 0.12151736814341099,
+            "val_loss": 0.44322543229375566
+        },
+        {
+            "time_to_train_epoch": 102.71194243431091,
+            "epoch_num": 18,
+            "train_loss": 0.10371073758859428,
+            "val_loss": 0.4329601602894919
+        },
+        {
+            "time_to_train_epoch": 102.76146388053894,
+            "epoch_num": 19,
+            "train_loss": 0.08763452560352765,
+            "val_loss": 0.4287378822054182
+        },
+        {
+            "time_to_train_epoch": 102.63817644119263,
+            "epoch_num": 20,
+            "train_loss": 0.07312773827382986,
+            "val_loss": 0.4203749588557652
+        }
+    ]
+}
