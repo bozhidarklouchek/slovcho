@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef} from "react";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGraduationCap, faHeart, faFaceLaughBeam, faGavel, faNewspaper } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +22,8 @@ function App() {
     academic: "научната",
     news: "публицистичната",
     administrative: "институционалната",
-    creative: "естетическата"
+    creative: "естетическата",
+    styleLoading: "Изчакайте..."
   }
 
   const languageConstantsEN = {
@@ -37,13 +38,15 @@ function App() {
     academic: "academic",
     news: "newswriting",
     administrative: "administrative",
-    creative: "creative"
+    creative: "creative",
+    styleLoading: "Loading..."
   }
 
   let languageConstants = null
 
-  const realTextAreaRef = useRef(null);
-  // const currHoveredWordRef = useRef(null);
+  const realTextAreaRef = useRef(null); 
+
+  const [isStyleLoading, setIsStyleLoading] = React.useState(false)
 
   const [language, setLanguage] = React.useState("bg")
   const [rawText, setRawText]= React.useState("")
@@ -54,7 +57,6 @@ function App() {
   const [styleIcon, setStyleIcon] = React.useState(null)
 
   const [wordCount, setWordCount] = useState(0)
-  const [sentCount, setSentCount] = useState(0)
   const [processedSents, setProcessedSents] = useState([])
 
   const [spellCorrections, setSpellCorrections] = useState([])
@@ -253,7 +255,7 @@ function App() {
       <span
         className={isSpelledWrong
           ? 'littleSpanIsSpelledWrong'
-          : isGrammaticallyWrong && grammarsThinking == 0
+          : grammarsThinking == 0 && isGrammaticallyWrong
           ? 'littleSpanIsGrammaticallyWrong'
           : 'littleSpanCorrect'}
         onClick={(e) => {
@@ -284,11 +286,26 @@ function App() {
     </>
   )}
 
+    const ActivityIndicator = () => {
+      return (
+        <div className="activity-indicator">
+          <div className="dot-container">
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+          </div>
+        </div>
+      );
+    }
+  
 
   const applySlovcho = async () => {
+    setIsStyleLoading(true)
 
     // Classify style of writing
     setStyle(await classifyStyle(rawText))
+
+    setIsStyleLoading(false)
   }
 
   languageConstants = language == 'en' ? languageConstantsEN : languageConstantsBG
@@ -311,13 +328,7 @@ function App() {
               className="input"
               contentEditable="plaintext-only"
               autoCorrect="false"
-              onInput={(e) => {
-                if(e.currentTarget.textContent.length > 10){
-                  e.preventDefault()
-                }
-                  
-                // e.currentTarget.textContent = e.currentTarget.textContent.slice(0, 10)
-                setRawText(e.currentTarget.textContent.slice(0, 10))}}
+              onInput={(e) => {setRawText(e.currentTarget.textContent)}}
             />
             
             <div
@@ -327,8 +338,8 @@ function App() {
               contentEditable="plaintext-only"
             > 
                 {
-                  rawText.slice(0, 10).split('\n').join(' PARAGPRAPH_SYMBOL ').split(' ').map((rawWord, i) => {
-
+                  
+                  rawText.split('\n').join(' PARAGPRAPH_SYMBOL ').split(' ').map((rawWord, i) => {
 
                   let charIndex = 0
                   let splitText = rawText.split('\n').join(' PARAGPRAPH_SYMBOL ').split(' ')
@@ -350,30 +361,34 @@ function App() {
                     charIndex++
                     }
 
+                    let paragraphIndexBuffer = rawText.split('\n').join(' PARAGPRAPH_SYMBOL ').split(' ').slice(0, i + 1).filter(el => '' === el || 'PARAGPRAPH_SYMBOL' === el).length
+
+                    let tempIndex = i - paragraphIndexBuffer
+
                     let cleanedWord = rawWord.replace(/[.,\/#!$%\^&\*;:{}=_`~()\[\]"'„“<>?\\|]/g, '')
                     let brokenWords = wordsWithCorrections.map((token) => token.text)
 
                     let corrections = []
                     let isSpelledWrong = false
                     let isGrammaticallyWrong = false
-                    let grammarCheckedWord = 
-                    grammarCorrections[i] != undefined
-                    ? grammarCorrections[i].replace(/[.,\/#!$%\^&\*;:{}=_`~()\[\]"'„“<>?\\|]/g, '')
-                    : ''
+                    let grammarCheckedWord = grammarCorrections[tempIndex] != undefined
+                      ? grammarCorrections[tempIndex].replace(/[.,\/#!$%\^&\*;:{}=_`~()\[\]"'„“<>?\\|]/g, '')
+                      : ''
 
                     if(cleanedWord != grammarCheckedWord){
                       isGrammaticallyWrong = true
                     }
+                    // console.log(i, cleanedWord, grammarCorrections[tempIndex])
                     
                     // If not only numerals in string and more than 2 chars
                     if(!/^[\d-]+$/.test(cleanedWord) && cleanedWord.length >= 3)
                     {
                       let count = 0;
-                      for (let i = 0; i < brokenWords.length; i++) {
-                          console.log(brokenWords[i])
+                      for (let k = 0; k < brokenWords.length; k++) {
+                          console.log(brokenWords[k])
                           console.log(cleanedWord)
-                          if (brokenWords[i] === cleanedWord) {
-                              corrections = wordsWithCorrections[i].correction[0].slice(0, 3).map((word_prob) => word_prob[0])
+                          if (brokenWords[k] === cleanedWord) {
+                              corrections = wordsWithCorrections[k].correction[0].slice(0, 3).map((word_prob) => word_prob[0])
                               count++;
                           }
                       }
@@ -414,7 +429,7 @@ function App() {
 
                     console.log('FINAL REPORT')
                     if(!isSpelledWrong && isGrammaticallyWrong){
-                      corrections = [grammarCorrections[i]]
+                      corrections = [grammarCorrections[tempIndex]]
                     }
 
                     return (
@@ -457,27 +472,28 @@ function App() {
             </div>
           </div>
           <div className="infoBox">
-            {/* <p style={{margin: 0}}>
-            {console.log(processedSents)}
-                {languageConstants.sentCount}{rawText ? sentCount : 0}
-            </p> */}
             <p style={{marginTop: 0}}>
                 {languageConstants.wordCount}{rawText ? wordCount : 0}
             </p>
-            <div className="buttonBox">
-              <div className="checkButton" onClick={() => applySlovcho()}>
-                <p className="buttonText">
-                  {style ? languageConstants.checkAgainButton: languageConstants.checkButton}
-                </p>
-              </div>
-            </div>
+            {!isStyleLoading
+            ? (<div className="buttonBox">
+                <div className="checkButton" onClick={() => applySlovcho()}>
+                  <p className="buttonText">
+                    {style ? languageConstants.checkAgainButton: languageConstants.checkButton}
+                  </p>
+                </div>
+              </div>)
+            : (<div className="buttonBox">
+                <div className="checkButtonLoading">
+                    {<ActivityIndicator />}
+                </div>
+              </div>)}
           </div>
         </div>
       </div>
     </div>
   );
 }
-
 
 
 export default App;

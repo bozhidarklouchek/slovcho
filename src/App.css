@@ -167,6 +167,23 @@
   background-color: rgb(53, 54, 115);
 }
 
+.checkButtonLoading{
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 8px;
+  background-color: rgb(50, 51, 108);
+
+  transition: background-color 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s ease-in-out;
+  -ms-transition: background-color 0.2s ease-in-out;
+  -o-transition: background-color 0.2s ease-in-out;
+}
+
 .buttonText{
   margin: 0;
   margin-left: 20px;
@@ -174,6 +191,49 @@
   font-size: 23px;
   font-weight: bold;
   color: rgb(255, 255, 255);
+}
+
+/* ActivityIndicator.css */
+.activity-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.dot-container {
+  display: flex;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  margin-right: 10px;
+  margin-bottom: -5px;
+  animation: bounce 0.5s infinite alternate;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
 }
 
 .textBox {
@@ -210,11 +270,14 @@
   white-space: nowrap;
   position: relative;
   z-index:12;
-  color: rgb(226, 0, 0);
-  transition-delay: 1.5s;
-  transition-property: color;
-  animation: underline 1s ease-in-out forwards;
-  animation-delay: 1.5s;
+  animation: addSpellColor 2s forwards; /* Adjust the animation duration as needed */
+  animation-delay: 1s;
+}
+/* Keyframes for the color animation */
+@keyframes addSpellColor {
+  to {
+    color: rgb(255, 0, 0);
+  }
 }
 /* Add a bottom border using ::after pseudo-element */
 .littleSpanIsSpelledWrong::after {
@@ -233,11 +296,16 @@
   white-space: nowrap;
   position: relative;
   z-index:12;
-  color: rgb(204, 0, 255);
-  transition: color 1s ease;
-  animation: underline 1s ease-in-out forwards;
+  animation: addGrammarColor 2s forwards; /* Adjust the animation duration as needed */
   animation-delay: 1.5s;
 }
+/* Keyframes for the color animation */
+@keyframes addGrammarColor {
+  to {
+    color: rgb(204, 0, 255);
+  }
+}
+
 /* Add a bottom border using ::after pseudo-element */
 .littleSpanIsGrammaticallyWrong::after {
   content: '';
@@ -250,7 +318,6 @@
   animation: slideFromLeft 2s forwards; /* Adjust the animation duration as needed */
   animation-delay: 1.5s;
 }
-
 /* Keyframes for the slideFromLeft animation */
 @keyframes slideFromLeft {
   to {
