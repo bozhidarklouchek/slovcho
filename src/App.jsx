@@ -23,7 +23,8 @@ function App() {
     news: "публицистичната",
     administrative: "институционалната",
     creative: "естетическата",
-    styleLoading: "Изчакайте..."
+    styleLoading: "Изчакайте...",
+    noCandidates: 'Няма предложения.'
   }
 
   const languageConstantsEN = {
@@ -39,7 +40,8 @@ function App() {
     news: "newswriting",
     administrative: "administrative",
     creative: "creative",
-    styleLoading: "Loading..."
+    styleLoading: "Loading...",
+    noCandidates: 'No candidates.'
   }
 
   let languageConstants = null
@@ -47,6 +49,7 @@ function App() {
   const realTextAreaRef = useRef(null); 
 
   const [isStyleLoading, setIsStyleLoading] = React.useState(false)
+  const [isErrorLoading, setIsErrorLoading] = React.useState(false)
 
   const [language, setLanguage] = React.useState("bg")
   const [rawText, setRawText]= React.useState("")
@@ -151,6 +154,7 @@ function App() {
   
 
   React.useEffect(() => {
+    setIsErrorLoading(true)
     let ignore = false
 
     const fetchData = async () => {
@@ -201,6 +205,7 @@ function App() {
                                   (token.correction[0].length == 1 && token.correction[0][0][1] != 1))));
       console.log('second filter', word2correction)
       setWordsWithCorrections(word2correction)
+      setIsErrorLoading(false)
     };
 
     // Call the fetchData function when the component mounts
@@ -247,7 +252,7 @@ function App() {
                 </>
                 ))
             : <span className='candidate' onClick={(e) => {}}>
-                {'No candidates'}
+                {languageConstants.noCandidates}
               </span>}
           </div>
         </>
@@ -286,14 +291,23 @@ function App() {
     </>
   )}
 
-    const ActivityIndicator = () => {
+    const DotsBouncing = () => {
       return (
-        <div className="activity-indicator">
+        <div className="dost-bouncing">
           <div className="dot-container">
             <div className="dot"></div>
             <div className="dot"></div>
             <div className="dot"></div>
           </div>
+        </div>
+      );
+    }
+
+    const Spinner = () => {
+      return (
+        <div className="spin-load">
+          {/* You can use any kind of loading spinner or animation here */}
+          <div className="spinner"></div>
         </div>
       );
     }
@@ -329,7 +343,8 @@ function App() {
               contentEditable="plaintext-only"
               autoCorrect="false"
               onInput={(e) => {setRawText(e.currentTarget.textContent)}}
-            />
+            >
+            </div>
             
             <div
               id="dummy"
@@ -448,8 +463,11 @@ function App() {
                             &nbsp;
                           </span>
                           )})}
+                                      
            </div>
-          </div>  
+              {/* {isErrorLoading || grammarsThinking != 0 && (
+              <Spinner />)}    */}
+          </div>
         </div>
 
         <div className="titleColumn" >
@@ -485,7 +503,7 @@ function App() {
               </div>)
             : (<div className="buttonBox">
                 <div className="checkButtonLoading">
-                    {<ActivityIndicator />}
+                    {<DotsBouncing />}
                 </div>
               </div>)}
           </div>
