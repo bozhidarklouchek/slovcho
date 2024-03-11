@@ -6,6 +6,8 @@ Slovcho is a digital writing assistant in Bulgarian, that aims to make writing i
 
 Slovcho's a React application that utilises npm as a package manager and flask as server architecture. It utilises NLP models in its backend in order to classify style and correct errors.
 
+The following files have been extracted from the codebase in order to make it clear the key parts of the submission.
+
 ## NLP Models
 
 It comes with three models:
@@ -20,6 +22,7 @@ All of the models you can find uploaded in the [Google drive](https://drive.goog
 ## Data
 
 The datasets used are bespoke and have been created for this specific project, but may be useful to others:
+- style collection: a collection of Bulgarian sentences in various different writing styles.
 - dictionary: a collection of Bulgarian one-word terms, along with a POS tag for each
 - spelling errors: a dataset of spelling mistakes in Bulgarian that have been induced automatically on an originally correct dataset; the error types include:
   - changes in vowels depending on word stress,
