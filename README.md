@@ -15,7 +15,7 @@ It comes with three models:
   - real world errors, which result in words that are present in the dictionary, but are invalid in the current context
 - grammar correction model: identify and give suggestions for grammar mistakes using a finetuned version of Google's mt5-base model .
 
-All of the models you can find uploaded in the Google drive.
+All of the models you can find uploaded in the [Google drive](https://drive.google.com/drive/folders/1vaJTNxh-6OFIuDHzjt4n67m4qq-ajCTd?usp=sharing).
 
 ## Data
 
