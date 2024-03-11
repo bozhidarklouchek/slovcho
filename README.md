@@ -29,5 +29,8 @@ The datasets used are bespoke and have been created for this specific project, b
   - changes in consonants depending on articles, pronounciation and syntax
   - random changes in characters
   - changes in characters that result in real world errors (words that are present in the dictionary, but are invalid in the current context)
+- grammar errors: a dataset of grammar mistakes in Bulgarian that have been induced automatically on an originally correct dataset; the error types include:
+  - article errors,
+  - pronoun errors
 
 All of the datasets you can find uploaded in the [Google drive](https://drive.google.com/drive/folders/1c_cdidKvW-kMg51Q0-lHWNocDRIlYnTo?usp=sharing).
