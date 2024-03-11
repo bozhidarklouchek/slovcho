@@ -27,4 +27,4 @@ The datasets used are bespoke and have been created for this specific project, b
   - random changes in characters
   - changes in characters that result in real world errors (words that are present in the dictionary, but are invalid in the current context)
 
-All of the datasets you can find uploaded in the Google drive.
+All of the datasets you can find uploaded in the [Google drive](https://drive.google.com/drive/folders/1c_cdidKvW-kMg51Q0-lHWNocDRIlYnTo?usp=sharing).
