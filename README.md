@@ -1,70 +1,30 @@
-# Getting Started with Create React App
+# Slovcho
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Slovcho is a digital writing assistant in Bulgarian, that aims to make writing in correct Bulgarian easier and more accessible.
 
-## Available Scripts
+## Software
 
-In the project directory, you can run:
+Slovcho's a React application that utilises npm as a package manager and flask as server architecture. It utilises NLP models in its backend in order to classify style and correct errors.
 
-### `npm start`
+## NLP Models
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+It comes with three models:
+- style classification model: classify the style of writing into one of five distinct classes (academic, administrative, creative, news or casual) using a multinomial Naive Bayes classifier.
+- spell correction model: identify and give suggestions for spelling mistakes using a Noisy Channel model, it can identify and correct:
+  - non-word errors, which result in words that aren't valid and thus not present in the dictionary, and
+  - real world errors, which result in words that are present in the dictionary, but are invalid in the current context
+- grammar correction model: identify and give suggestions for grammar mistakes using a finetuned version of Google's mt5-base model .
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+All of the models you can find uploaded in the Google drive.
 
-### `npm test`
+## Data
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The datasets used are bespoke and have been created for this specific project, but may be useful to others:
+- dictionary: a collection of Bulgarian one-word terms, along with a POS tag for each
+- spelling errors: a dataset of spelling mistakes in Bulgarian that have been induced automatically on an originally correct dataset; the error types include:
+  - changes in vowels depending on word stress,
+  - changes in consonants depending on articles, pronounciation and syntax
+  - random changes in characters
+  - changes in characters that result in real world errors (words that are present in the dictionary, but are invalid in the current context)
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+All of the datasets you can find uploaded in the Google drive.
